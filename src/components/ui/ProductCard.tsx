@@ -10,9 +10,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
       <div className="h-48 overflow-hidden">
         <img
-          src={product.product_image || '/placeholder-image.jpg'}
+          src={product.product_image || '/placeholder-image.png'}
           alt={product.name}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = '/placeholder-image.png';
+          }}
         />
       </div>
       <div className="p-4">

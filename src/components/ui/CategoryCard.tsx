@@ -1,16 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Category, SubCategory } from '../../types';
+import type { Category } from '../../types';
 import { useAppStore } from '../../store';
+import LoadingSpinner from './LoadingSpinner';
 
 interface CategoryCardProps {
   category: Category;
-  subCategories: SubCategory[];
+  onExpandCategory: () => Promise<any[]>;
+  isLoading: boolean;
 }
 
-const CategoryCard = ({ category, subCategories }: CategoryCardProps) => {
+const CategoryCard = ({ category, onExpandCategory, isLoading }: CategoryCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
+  const { subCategories } = useAppStore();
+  const [localSubCategories, setLocalSubCategories] = useState<any[]>([]);
+  
+  useEffect(() => {
+    if (isExpanded) {
+      const fetchSubCategories = async () => {
+        await onExpandCategory();
+        // Now get the subcategories from the store
+        const filteredSubCategories = subCategories.filter(
+          sub => sub.categoryName === category.name
+        );
+        setLocalSubCategories(filteredSubCategories);
+      };
+      
+      fetchSubCategories();
+    }
+  }, [isExpanded, category.name, onExpandCategory, subCategories]);
 
   const handleCategoryClick = () => {
     setIsExpanded(!isExpanded);
@@ -28,9 +47,12 @@ const CategoryCard = ({ category, subCategories }: CategoryCardProps) => {
       >
         <div className="h-48 overflow-hidden">
           <img
-            src={category.image || '/placeholder-image.jpg'}
+            src={category.image || '/placeholder-image.png'}
             alt={category.name}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = '/placeholder-image.png';
+            }}
           />
         </div>
         <div className="p-4">
@@ -49,27 +71,38 @@ const CategoryCard = ({ category, subCategories }: CategoryCardProps) => {
         </div>
       </div>
 
-      {isExpanded && subCategories.length > 0 && (
+      {isExpanded && (
         <div className="px-4 pb-4 space-y-2">
           <h4 className="text-md font-medium text-gray-700 mb-1">Sub Categories:</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {subCategories.map((subCategory) => (
-              <div 
-                key={subCategory.id}
-                className="bg-gray-100 rounded-md p-2 cursor-pointer hover:bg-gray-200 transition flex items-center"
-                onClick={() => handleSubCategoryClick(subCategory.name)}
-              >
-                <div className="w-12 h-12 mr-2 overflow-hidden rounded">
-                  <img 
-                    src={subCategory.image || '/placeholder-image.jpg'} 
-                    alt={subCategory.name}
-                    className="w-full h-full object-cover" 
-                  />
+          {isLoading ? (
+            <div className="py-4 flex justify-center">
+              <LoadingSpinner size="small" />
+            </div>
+          ) : localSubCategories.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {localSubCategories.map((subCategory) => (
+                <div 
+                  key={subCategory.id}
+                  className="bg-gray-100 rounded-md p-2 cursor-pointer hover:bg-gray-200 transition flex items-center"
+                  onClick={() => handleSubCategoryClick(subCategory.name)}
+                >
+                  <div className="w-12 h-12 mr-2 overflow-hidden rounded">
+                    <img 
+                      src={subCategory.image || '/placeholder-image.png'} 
+                      alt={subCategory.name}
+                      className="w-full h-full object-cover" 
+                      onError={(e) => {
+                        e.currentTarget.src = '/placeholder-image.png';
+                      }}
+                    />
+                  </div>
+                  <span className="text-gray-800">{subCategory.name}</span>
                 </div>
-                <span className="text-gray-800">{subCategory.name}</span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 py-2">No subcategories available</p>
+          )}
         </div>
       )}
     </div>

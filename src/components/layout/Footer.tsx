@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white w-full">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
+      <div className="max-w-[1100px] mx-auto px-4 py-12">
+        <div className="flex flex-col md:flex-row">
+          {/* Company Info - 40% width on desktop, 100% on mobile */}
+          <div className="w-full md:w-[40%] mb-8 md:mb-0">
             <h3 className="text-xl font-bold mb-4">Jurchen Technology</h3>
             <p className="mb-4 text-gray-300">
               Providing high-quality solar products for sustainable energy solutions.
@@ -35,60 +35,42 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
-              </li>
-              <li>
-                <Link to="/products" className="text-gray-300 hover:text-white">Products</Link>
-              </li>
-              <li>
-                <Link to="/categories" className="text-gray-300 hover:text-white">Categories</Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-300 hover:text-white">About Us</Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-300 hover:text-white">Contact Us</Link>
-              </li>
-            </ul>
-          </div>
+          {/* Right side container for Quick Links and Contact Info */}
+          <div className="w-full md:w-[60%] flex flex-row">
+            {/* Quick Links - 50% of the right side on all screens */}
+            <div className="w-1/2 pl-0 md:pl-8">
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
+                </li>
+                <li>
+                  <Link to="/products" className="text-gray-300 hover:text-white">Products</Link>
+                </li>
+                <li>
+                  <Link to="/categories" className="text-gray-300 hover:text-white">Categories</Link>
+                </li>
+                <li>
+                  <Link to="/about" className="text-gray-300 hover:text-white">About Us</Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-gray-300 hover:text-white">Contact Us</Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <address className="not-italic text-gray-300">
-              <p className="mb-2">123 Solar Street</p>
-              <p className="mb-2">Tech City, TC 12345</p>
-              <p className="mb-2">India</p>
-            </address>
-            <p className="mt-4 text-gray-300">
-              <span className="block mb-1">Phone: +91 123 456 7890</span>
-              <span className="block">Email: info@jurchentech.com</span>
-            </p>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Newsletter</h3>
-            <p className="mb-4 text-gray-300">
-              Subscribe to our newsletter for the latest updates on our products and services.
-            </p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="w-full px-4 py-2 outline-none text-gray-900 rounded-l-md"
-              />
-              <button
-                type="button"
-                className="bg-blue-600 px-4 py-2 text-white rounded-r-md hover:bg-blue-700"
-              >
-                Subscribe
-              </button>
+            {/* Contact Info - 50% of the right side on all screens */}
+            <div className="w-1/2 pl-4">
+              <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+              <address className="not-italic text-gray-300">
+                <p className="mb-2">123 Solar Street</p>
+                <p className="mb-2">Tech City, TC 12345</p>
+                <p className="mb-2">India</p>
+              </address>
+              <p className="mt-4 text-gray-300">
+                <span className="block mb-1">Phone: +91 123 456 7890</span>
+                <span className="block">Email: info@jurchentech.com</span>
+              </p>
             </div>
           </div>
         </div>

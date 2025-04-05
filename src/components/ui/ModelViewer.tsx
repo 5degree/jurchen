@@ -1,11 +1,11 @@
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF, useTexture, Environment, Html } from '@react-three/drei';
+import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
 import LoadingSpinner from './LoadingSpinner';
 
 interface ModelViewerProps {
   modelUrl: string;
-  modelType?: 'obj' | 'gltf' | 'glb';
+  className?: string;
 }
 
 // Component to handle loading error
@@ -32,47 +32,36 @@ const ModelLoader = () => {
 };
 
 // Component to render the actual 3D model
-const Model = ({ modelUrl, modelType = 'obj' }: ModelViewerProps) => {
+const Model = ({ modelUrl }: { modelUrl: string }) => {
   const [error, setError] = useState(false);
 
-  // Handle different model types
-  if (modelType === 'gltf' || modelType === 'glb' || modelUrl.endsWith('.gltf') || modelUrl.endsWith('.glb')) {
-    try {
-      const { scene } = useGLTF(modelUrl);
-      return <primitive object={scene} />;
-    } catch (err) {
-      setError(true);
-      return <ModelError />;
-    }
-  } else {
-    // Default to OBJ loader
-    try {
-      // We'll use Drei's OBJ loader via the primitive component
-      return <primitive object={new Object()} />;
-    } catch (err) {
-      setError(true);
-      return <ModelError />;
-    }
+  try {
+    const { scene } = useGLTF(modelUrl);
+    return <primitive object={scene} scale={[1, 1, 1]} position={[0, 0, 0]} />;
+  } catch (err) {
+    console.error('Error rendering model:', err);
+    if (!error) setError(true);
+    return <ModelError />;
   }
 };
 
-const ModelViewer = ({ modelUrl, modelType }: ModelViewerProps) => {
+const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) => {
   if (!modelUrl) {
     return (
-      <div className="w-full h-96 flex items-center justify-center bg-gray-100 rounded-lg">
+      <div className={`${className} flex items-center justify-center bg-gray-100 rounded-lg`}>
         <p className="text-gray-500">No 3D model available</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-96 bg-gray-100 rounded-lg overflow-hidden">
+    <div className={`${className} bg-gray-100 rounded-lg overflow-hidden`}>
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
         <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-        <pointLight position={[-10, -10, -10]} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
         <Suspense fallback={<ModelLoader />}>
-          <Model modelUrl={modelUrl} modelType={modelType} />
+          <Model modelUrl={modelUrl} />
           <Environment preset="sunset" />
           <OrbitControls 
             enablePan={true} 

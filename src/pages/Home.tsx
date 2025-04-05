@@ -25,8 +25,8 @@ const Home = () => {
 
   return (
     <Layout>
-      {/* Hero Slider Section */}
-      <section>
+      {/* Hero Slider Section - Full Width */}
+      <section className="w-full">
         {isHeroSlidersLoading ? (
           <div className="h-[500px] flex items-center justify-center bg-gray-100">
             <LoadingSpinner size="large" />
@@ -47,8 +47,8 @@ const Home = () => {
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="container mx-auto">
+      <section className="w-full py-16 bg-gray-50">
+        <div className="max-w-[1100px] mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Featured Products</h2>
           
           {isFeaturedProductsLoading ? (
@@ -87,8 +87,8 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-700 text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="w-full py-20 bg-blue-700 text-white">
+        <div className="max-w-[1100px] mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Ready to Explore Solar Solutions?</h2>
           <p className="max-w-2xl mx-auto mb-10 text-lg">
             Discover our wide range of high-quality solar products designed to meet your energy needs.

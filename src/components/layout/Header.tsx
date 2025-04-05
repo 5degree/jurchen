@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md w-full">
-      <div className="container px-8 py-8">
+      <div className="max-w-[1100px] mx-auto px-4 py-6">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-gray-900">
             Jurchen Technology

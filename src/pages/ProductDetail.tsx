@@ -6,7 +6,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import ModelViewer from '../components/ui/ModelViewer';
 
 const ProductDetail = () => {
-  const { productId } = useParams<{ productId: string }>();
+  const { productId } = useParams();
   const { 
     currentProduct, 
     loadProductById, 
@@ -43,9 +43,11 @@ const ProductDetail = () => {
   if (isCurrentProductLoading) {
     return (
       <Layout>
-        <div className="container mx-auto px-4 py-12">
-          <div className="h-96 flex items-center justify-center">
-            <LoadingSpinner size="large" />
+        <div className="w-full bg-gray-50 py-12">
+          <div className="max-w-[1100px] mx-auto px-4">
+            <div className="h-96 flex items-center justify-center">
+              <LoadingSpinner size="large" />
+            </div>
           </div>
         </div>
       </Layout>
@@ -55,17 +57,19 @@ const ProductDetail = () => {
   if (currentProductError || !currentProduct) {
     return (
       <Layout>
-        <div className="container mx-auto px-4 py-12">
-          <div className="h-96 flex flex-col items-center justify-center">
-            <p className="text-red-500 mb-2">
-              {currentProductError || 'Product not found'}
-            </p>
-            <Link
-              to="/products"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Back to Products
-            </Link>
+        <div className="w-full bg-gray-50 py-12">
+          <div className="max-w-[1100px] mx-auto px-4">
+            <div className="h-96 flex flex-col items-center justify-center">
+              <p className="text-red-500 mb-2">
+                {currentProductError || 'Product not found'}
+              </p>
+              <Link
+                to="/products"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Back to Products
+              </Link>
+            </div>
           </div>
         </div>
       </Layout>
@@ -74,180 +78,189 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12 text-black">
-        {/* Breadcrumb */}
-        <nav className="mb-6 text-sm">
-          <ol className="flex flex-wrap items-center">
-            <li className="flex items-center">
-              <Link to="/" className="text-blue-600 hover:text-blue-800">Home</Link>
-              <span className="mx-2">/</span>
-            </li>
-            <li className="flex items-center">
-              <Link to="/products" className="text-blue-600 hover:text-blue-800">Products</Link>
-              <span className="mx-2">/</span>
-            </li>
-            {currentProduct.category && (
+      <div className="w-full bg-gray-50 py-12">
+        <div className="max-w-[1100px] mx-auto px-4 text-black">
+          {/* Breadcrumb */}
+          <nav className="mb-6 text-sm">
+            <ol className="flex flex-wrap items-center">
               <li className="flex items-center">
-                <Link 
-                  to={`/products?category=${currentProduct.category}`} 
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {currentProduct.category}
-                </Link>
+                <Link to="/" className="text-blue-600 hover:text-blue-800">Home</Link>
                 <span className="mx-2">/</span>
               </li>
-            )}
-            <li className="text-gray-600">{currentProduct.name}</li>
-          </ol>
-        </nav>
+              <li className="flex items-center">
+                <Link to="/products" className="text-blue-600 hover:text-blue-800">Products</Link>
+                <span className="mx-2">/</span>
+              </li>
+              {currentProduct.category && (
+                <li className="flex items-center">
+                  <Link 
+                    to={`/products?category=${currentProduct.category}`} 
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    {currentProduct.category}
+                  </Link>
+                  <span className="mx-2">/</span>
+                </li>
+              )}
+              <li className="text-gray-600">{currentProduct.name}</li>
+            </ol>
+          </nav>
 
-        {/* Product content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left column - Images */}
-          <div>
-            {/* Main image */}
-            <div className="mb-4 border rounded-lg overflow-hidden h-96">
-              <img 
-                src={selectedImage || currentProduct.product_image || '/placeholder-image.jpg'} 
-                alt={currentProduct.name}
-                className="w-full h-full object-contain"
-              />
+          {/* Product content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-6 rounded-lg shadow-sm mb-8">
+            {/* Left column - Images */}
+            <div>
+              {/* Main image */}
+              <div className="mb-4 border rounded-lg overflow-hidden h-96">
+                <img 
+                  src={selectedImage || currentProduct.product_image || '/placeholder-image.png'} 
+                  alt={currentProduct.name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              {/* Thumbnail gallery */}
+              {currentProduct.product_gallery && currentProduct.product_gallery.length > 0 && (
+                <div className="grid grid-cols-5 gap-2">
+                  {[currentProduct.product_image, ...currentProduct.product_gallery].filter(Boolean).map((image, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`cursor-pointer border-2 rounded overflow-hidden h-20 ${
+                        selectedImage === image ? 'border-blue-500' : 'border-gray-200'
+                      }`}
+                      onClick={() => handleImageSelect(image as string)}
+                    >
+                      <img 
+                        src={image as string} 
+                        alt={`${currentProduct.name} - ${idx}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Thumbnail gallery */}
-            {currentProduct.product_gallery && currentProduct.product_gallery.length > 0 && (
-              <div className="grid grid-cols-5 gap-2">
-                {[currentProduct.product_image, ...currentProduct.product_gallery].filter(Boolean).map((image, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`cursor-pointer border-2 rounded overflow-hidden h-20 ${
-                      selectedImage === image ? 'border-blue-500' : 'border-gray-200'
-                    }`}
-                    onClick={() => handleImageSelect(image as string)}
-                  >
-                    <img 
-                      src={image as string} 
-                      alt={`${currentProduct.name} - ${idx}`}
-                      className="w-full h-full object-cover"
-                    />
+            {/* Right column - Details */}
+            <div>
+              <h1 className="text-3xl font-bold mb-4">{currentProduct.name}</h1>
+              
+              {currentProduct.category && (
+                <p className="mb-4 text-gray-600">
+                  Category: <Link to={`/products?category=${currentProduct.category}`} className="text-blue-600 hover:underline">{currentProduct.category}</Link>
+                  {currentProduct.subCategory && (
+                    <> | Subcategory: <Link to={`/products?subCategory=${currentProduct.subCategory}`} className="text-blue-600 hover:underline">{currentProduct.subCategory}</Link></>
+                  )}
+                </p>
+              )}
+
+              {/* Price information */}
+              {currentProduct.mrp && (
+                <div className="mb-6">
+                  <div className="flex items-baseline">
+                    {currentProduct.sale_price && currentProduct.sale_price < currentProduct.mrp ? (
+                      <>
+                        <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
+                        <span className="ml-2 text-lg text-gray-500 line-through">₹{currentProduct.mrp.toLocaleString()}</span>
+                      </>
+                    ) : (
+                      <span className="text-2xl font-bold text-gray-900">₹{currentProduct.mrp.toLocaleString()}</span>
+                    )}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Right column - Details */}
-          <div>
-            <h1 className="text-3xl font-bold mb-4">{currentProduct.name}</h1>
-            
-            {currentProduct.category && (
-              <p className="mb-4 text-gray-600">
-                Category: <Link to={`/products?category=${currentProduct.category}`} className="text-blue-600 hover:underline">{currentProduct.category}</Link>
-                {currentProduct.subCategory && (
-                  <> | Subcategory: <Link to={`/products?subCategory=${currentProduct.subCategory}`} className="text-blue-600 hover:underline">{currentProduct.subCategory}</Link></>
-                )}
-              </p>
-            )}
-
-            {/* Price information */}
-            {currentProduct.mrp && (
-              <div className="mb-6">
-                <div className="flex items-baseline">
-                  {currentProduct.sale_price && currentProduct.sale_price < currentProduct.mrp ? (
-                    <>
-                      <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
-                      <span className="ml-2 text-lg text-gray-500 line-through">₹{currentProduct.mrp.toLocaleString()}</span>
-                    </>
-                  ) : (
-                    <span className="text-2xl font-bold text-gray-900">₹{currentProduct.mrp.toLocaleString()}</span>
+                  {currentProduct.gst && (
+                    <p className="text-sm text-gray-600 mt-1">
+                      GST: {currentProduct.gst}% | HSN Code: {currentProduct.hsnCode || 'N/A'}
+                    </p>
                   )}
                 </div>
-                {currentProduct.gst && (
-                  <p className="text-sm text-gray-600 mt-1">
-                    GST: {currentProduct.gst}% | HSN Code: {currentProduct.hsnCode || 'N/A'}
-                  </p>
-                )}
-              </div>
-            )}
+              )}
 
-            {/* Short description */}
-            {currentProduct.description && (
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Description</h2>
+              {/* Short description */}
+              {currentProduct.description && (
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-2">Description</h2>
+                  <div 
+                    className={`text-gray-700 ${!showFullDescription && 'line-clamp-6'}`}
+                    dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.description) }}
+                  />
+                  {currentProduct.description.length > 300 && (
+                    <button 
+                      className="text-blue-600 hover:underline mt-2"
+                      onClick={() => setShowFullDescription(!showFullDescription)}
+                    >
+                      {showFullDescription ? 'Show Less' : 'Read More'}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Material info */}
+              {currentProduct.material && (
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold mb-2">Material</h2>
+                  <p className="text-gray-700">{currentProduct.material}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Specifications */}
+          {currentProduct.specifications && (
+            <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
+              <h2 className="text-2xl font-bold mb-4">Specifications</h2>
+              <div className="border rounded-lg overflow-hidden">
                 <div 
-                  className={`text-gray-700 ${!showFullDescription && 'line-clamp-6'}`}
-                  dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.description) }}
+                  className="prose max-w-none p-6"
+                  dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.specifications) }}
                 />
-                {currentProduct.description.length > 300 && (
-                  <button 
-                    className="text-blue-600 hover:underline mt-2"
-                    onClick={() => setShowFullDescription(!showFullDescription)}
-                  >
-                    {showFullDescription ? 'Show Less' : 'Read More'}
-                  </button>
+              </div>
+            </div>
+          )}
+
+          {/* 3D Model and YouTube Video side by side */}
+          {(currentProduct.modelUrl || currentProduct.videoUrl) && (
+            <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* 3D Model */}
+                {currentProduct.modelUrl && (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-4">3D Model</h2>
+                    <ModelViewer modelUrl={currentProduct.modelUrl} className="w-full h-80" />
+                  </div>
+                )}
+
+                {/* YouTube Video */}
+                {currentProduct.videoUrl && (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-4">Product Video</h2>
+                    <div className="aspect-w-9 aspect-h-7">
+                      <iframe
+                        className="w-full h-80"
+                        src={currentProduct.videoUrl}
+                        title={`${currentProduct.name} Video`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
                 )}
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Material info */}
-            {currentProduct.material && (
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Material</h2>
-                <p className="text-gray-700">{currentProduct.material}</p>
+          {/* Terms and Conditions */}
+          {currentProduct.termsAndConditions && (
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-2xl font-bold mb-4">Terms and Conditions</h2>
+              <div className="border rounded-lg p-6 bg-gray-50">
+                <div 
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.termsAndConditions) }}
+                />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        {/* Specifications */}
-        {currentProduct.specifications && (
-          <div className="mt-12 ">
-            <h2 className="text-2xl font-bold mb-4">Specifications</h2>
-            <div className="border rounded-lg overflow-hidden">
-              <div 
-                className="prose max-w-none p-6"
-                dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.specifications) }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* 3D Model Viewer */}
-        {currentProduct.modelUrl && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">3D Model</h2>
-            <ModelViewer modelUrl={currentProduct.modelUrl} />
-          </div>
-        )}
-
-        {/* YouTube Video */}
-        {currentProduct.videoUrl && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Product Video</h2>
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                className="w-full h-96"
-                src={currentProduct.videoUrl}
-                title={`${currentProduct.name} Video`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </div>
-        )}
-
-        {/* Terms and Conditions */}
-        {currentProduct.termsAndConditions && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Terms and Conditions</h2>
-            <div className="border rounded-lg p-6 bg-gray-50">
-              <div 
-                className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: formatDescription(currentProduct.termsAndConditions) }}
-              />
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
   );
