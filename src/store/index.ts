@@ -90,6 +90,7 @@ export const useAppStore = create<AppState>((set) => ({
     set({ isSubCategoriesLoading: true, subCategoriesError: null });
     try {
       const subCategories = await fetchSubCategoriesByCategory(categoryName);
+      console.log(subCategories);
       set({ subCategories, isSubCategoriesLoading: false });
     } catch (error) {
       set({ 

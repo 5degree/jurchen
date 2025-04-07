@@ -155,16 +155,16 @@ const ProductDetail = () => {
               )}
 
               {/* Price information */}
-              {currentProduct.mrp && (
+              {currentProduct.sale_price && (
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    {currentProduct.sale_price && currentProduct.sale_price < currentProduct.mrp ? (
+                    {currentProduct.sale_price && currentProduct.mrp && currentProduct.sale_price < currentProduct.mrp ? (
                       <>
                         <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
                         <span className="ml-2 text-lg text-gray-500 line-through">₹{currentProduct.mrp.toLocaleString()}</span>
                       </>
                     ) : (
-                      <span className="text-2xl font-bold text-gray-900">₹{currentProduct.mrp.toLocaleString()}</span>
+                      <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
                     )}
                   </div>
                   {currentProduct.gst && (

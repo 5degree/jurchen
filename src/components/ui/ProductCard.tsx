@@ -7,7 +7,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-xl">
       <div className="h-48 overflow-hidden">
         <img
           src={product.product_image || '/placeholder-image.png'}
@@ -29,7 +29,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         
         <Link
           to={`/products/${product.id}`}
-          className="block w-full text-center py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="block w-full text-center py-2 px-4 bg-blue-600 text-blue-100 rounded hover:text-white transition"
         >
           View Product
         </Link>

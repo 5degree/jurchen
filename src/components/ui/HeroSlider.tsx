@@ -37,42 +37,17 @@ const HeroSlider = ({ sliders }: HeroSliderProps) => {
   }
 
   return (
-    <div className="relative overflow-hidden h-[500px]">
+    <div className="relative overflow-hidden h-[600px]">
       <div className="absolute inset-0 flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
         {sliders.map((slider, index) => (
           <div key={index} className="w-full flex-shrink-0">
-            <div className="relative w-full h-[500px]">
+            <div className="relative w-full h-[600px]">
               <img 
                 src={slider.image} 
                 alt={slider.title} 
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white p-4">
-                <h2 className="text-4xl font-bold mb-4 text-center">{slider.title}</h2>
-                {slider.to === "loggedIn" ? (
-                  <Link 
-                    to={slider.url} 
-                    className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                  >
-                    Learn More
-                  </Link>
-                ) : slider.url === "/register" ? (
-                  <Link 
-                    to="/register" 
-                    className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                  >
-                    Register
-                  </Link>
-                ) : (
-                  <a 
-                    href={slider.url} 
-                    className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    Learn More
-                  </a>
-                )}
               </div>
             </div>
           </div>
