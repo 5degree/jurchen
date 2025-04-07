@@ -71,7 +71,7 @@ const Categories = () => {
           ) : categories.length === 0 ? (
             <p className="text-center text-gray-500">No categories available</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
               {categories.map((category) => (
                 <CategoryCard 
                   key={category.id} 

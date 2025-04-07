@@ -18,7 +18,7 @@ const db = getFirestore(app);
 
 // Collection references
 const categoriesRef = collection(db, 'category');
-const subCategoriesRef = collection(db, 'subcategory');
+const subCategoriesRef = collection(db, 'subCategory');
 const heroSlidersRef = collection(db, 'hero_slider');
 const productsRef = collection(db, 'products');
 

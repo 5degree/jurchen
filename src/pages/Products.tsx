@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Slider } from "@mui/material";
 import { useAppStore } from "../store";
 import Layout from "../components/layout/Layout";
 import ProductCard from "../components/ui/ProductCard";
@@ -187,38 +188,32 @@ const Products = () => {
 
           {/* Filters and Search Section */}
           <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Search Input */}
-              <div>
-                <label
-                  htmlFor="search"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Search Products
-                </label>
-                <input
-                  type="text"
-                  id="search"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  placeholder="Search by name, category, description..."
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            {/* Search Input - Full Width */}
+            <div className="mb-6">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search by Product, Category, HSN Code"
+                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
+            {/* Filters Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
               {/* Category Filter */}
               <div>
                 <label
                   htmlFor="category"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Category
+                  Filter by Category
                 </label>
                 <select
                   id="category"
                   value={selectedCategory}
                   onChange={handleCategoryChange}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Categories</option>
                   {categories.map((category) => (
@@ -231,47 +226,36 @@ const Products = () => {
 
               {/* Price Range */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Filter by Price
                 </label>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <input
-                      type="range"
-                      min={0}
-                      max={maxPrice}
-                      value={priceRange[0]}
-                      onChange={(e) => handlePriceRangeChange(e, 0)}
-                      className="w-full"
-                    />
-                    <span className="text-xs text-gray-500">
-                      Min: ₹{priceRange[0]}
-                    </span>
-                  </div>
-                  <div>
-                    <input
-                      type="range"
-                      min={0}
-                      max={maxPrice}
-                      value={priceRange[1]}
-                      onChange={(e) => handlePriceRangeChange(e, 1)}
-                      className="w-full"
-                    />
-                    <span className="text-xs text-gray-500">
-                      Max: ₹{priceRange[1]}
-                    </span>
+                <div className="px-3">
+                  <Slider
+                    value={priceRange}
+                    onChange={(_, newValue) => setPriceRange(newValue as [number, number])}
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={maxPrice}
+                    step={100}
+                    valueLabelFormat={(value) => `₹${value.toLocaleString()}`}
+                  />
+                  <div className="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>₹{priceRange[0].toLocaleString()}</span>
+                    <span>₹{priceRange[1].toLocaleString()}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Clear Filters Button */}
-            <div className="mt-4 flex justify-end">
+            {/* Clear Filters */}
+            <div className="flex justify-end">
               <button
                 onClick={clearFilters}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
               >
-                Clear Filters
+                CLEAR FILTERS
               </button>
             </div>
           </div>

@@ -39,6 +39,6 @@ export interface Product {
   subCategory?: string;
   subsubCategory?: string;
   termsAndConditions?: string;
-  modelUrl?: string; // For 3D model
-  videoUrl?: string; // For YouTube video
+  modelUrl?: string;
+  videoUrl?: string;
 } 

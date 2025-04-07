@@ -20,7 +20,6 @@ const CategoryCard = ({ category, onExpandCategory, isLoading }: CategoryCardPro
     if (isExpanded) {
       const fetchSubCategories = async () => {
         await onExpandCategory();
-        // Now get the subcategories from the store
         const filteredSubCategories = subCategories.filter(
           sub => sub.categoryName === category.name
         );
@@ -32,7 +31,7 @@ const CategoryCard = ({ category, onExpandCategory, isLoading }: CategoryCardPro
   }, [isExpanded, category.name, onExpandCategory, subCategories]);
 
   const handleCategoryClick = () => {
-    setIsExpanded(!isExpanded);
+    navigate(`/products?category=${category.name}`);
   };
 
   const handleSubCategoryClick = (subCategoryName: string) => {
@@ -40,73 +39,58 @@ const CategoryCard = ({ category, onExpandCategory, isLoading }: CategoryCardPro
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      {/* Main category section */}
       <div 
-        className="cursor-pointer"
+        className="relative cursor-pointer group"
         onClick={handleCategoryClick}
       >
-        <div className="h-48 overflow-hidden">
+        <div className="h-64 overflow-hidden">
           <img
             src={category.image || '/placeholder-image.png'}
             alt={category.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             onError={(e) => {
               e.currentTarget.src = '/placeholder-image.png';
             }}
           />
         </div>
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">{category.name}</h3>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Click to expand</span>
-            <svg 
-              className={`w-5 h-5 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+          <h3 className="text-2xl font-bold text-white mb-2">{category.name}</h3>
+          <p className="text-white/90 text-sm">View Products →</p>
         </div>
       </div>
 
-      {isExpanded && (
-        <div className="px-4 pb-4 space-y-2">
-          <h4 className="text-md font-medium text-gray-700 mb-1">Sub Categories:</h4>
-          {isLoading ? (
-            <div className="py-4 flex justify-center">
-              <LoadingSpinner size="small" />
-            </div>
-          ) : localSubCategories.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {localSubCategories.map((subCategory) => (
-                <div 
-                  key={subCategory.id}
-                  className="bg-gray-100 rounded-md p-2 cursor-pointer hover:bg-gray-200 transition flex items-center"
-                  onClick={() => handleSubCategoryClick(subCategory.name)}
-                >
-                  <div className="w-12 h-12 mr-2 overflow-hidden rounded">
-                    <img 
-                      src={subCategory.image || '/placeholder-image.png'} 
-                      alt={subCategory.name}
-                      className="w-full h-full object-cover" 
-                      onError={(e) => {
-                        e.currentTarget.src = '/placeholder-image.png';
-                      }}
-                    />
-                  </div>
-                  <span className="text-gray-800">{subCategory.name}</span>
+      {/* Subcategories grid */}
+      <div className="p-4">
+        <div className="grid grid-cols-2 gap-3">
+          {localSubCategories.map((subCategory) => (
+            <div 
+              key={subCategory.id}
+              onClick={() => handleSubCategoryClick(subCategory.name)}
+              className="cursor-pointer group"
+            >
+              <div className="relative h-32 overflow-hidden rounded-lg">
+                <img 
+                  src={subCategory.image || '/placeholder-image.png'} 
+                  alt={subCategory.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder-image.png';
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <span className="text-white text-sm font-medium text-center px-2">
+                    {subCategory.name}
+                  </span>
                 </div>
-              ))}
+              </div>
             </div>
-          ) : (
-            <p className="text-gray-500 py-2">No subcategories available</p>
-          )}
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default CategoryCard; 
+export default CategoryCard;

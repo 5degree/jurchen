@@ -36,7 +36,9 @@ const Model = ({ modelUrl }: { modelUrl: string }) => {
   const [error, setError] = useState(false);
 
   try {
-    const { scene } = useGLTF(modelUrl);
+    // Add CORS proxy to the URL
+    const proxyUrl = `https://cors-anywhere.herokuapp.com/${modelUrl}`;
+    const { scene } = useGLTF(proxyUrl);
     return <primitive object={scene} scale={[1, 1, 1]} position={[0, 0, 0]} />;
   } catch (err) {
     console.error('Error rendering model:', err);
