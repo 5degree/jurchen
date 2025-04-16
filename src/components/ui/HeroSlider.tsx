@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import type { HeroSlider as HeroSliderType } from '../../types';
 
 interface HeroSliderProps {

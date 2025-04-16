@@ -124,17 +124,17 @@ const Products = () => {
   };
 
   // Handle price range change
-  const handlePriceRangeChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const newValue = parseInt(e.target.value);
-    setPriceRange((prev) => {
-      const newRange = [...prev] as [number, number];
-      newRange[index] = newValue;
-      return newRange;
-    });
-  };
+  // const handlePriceRangeChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
+  //   const newValue = parseInt(e.target.value);
+  //   setPriceRange((prev) => {
+  //     const newRange = [...prev] as [number, number];
+  //     newRange[index] = newValue;
+  //     return newRange;
+  //   });
+  // };
 
   // Handle category change
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

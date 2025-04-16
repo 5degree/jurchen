@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Category } from '../../types';
 import { useAppStore } from '../../store';
-import LoadingSpinner from './LoadingSpinner';
 
 interface CategoryCardProps {
   category: Category;
@@ -10,8 +9,8 @@ interface CategoryCardProps {
   isLoading: boolean;
 }
 
-const CategoryCard = ({ category, onExpandCategory, isLoading }: CategoryCardProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const CategoryCard = ({ category, onExpandCategory }: CategoryCardProps) => {
+  const [isExpanded] = useState(false);
   const navigate = useNavigate();
   const { subCategories } = useAppStore();
   const [localSubCategories, setLocalSubCategories] = useState<any[]>([]);

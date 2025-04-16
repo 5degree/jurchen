@@ -14,7 +14,7 @@ const Categories = () => {
   } = useAppStore();
 
   const [loadedCategoryIds, setLoadedCategoryIds] = useState<Set<string>>(new Set());
-  const [categorySubcategories, setCategorySubcategories] = useState<Record<string, any[]>>({});
+  const [categorySubcategories] = useState<Record<string, any[]>>({});
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

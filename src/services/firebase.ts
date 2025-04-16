@@ -49,7 +49,7 @@ export const fetchFeaturedProducts = async (limitCount = 8): Promise<Product[]> 
 };
 
 // Fetch all products with pagination
-export const fetchProducts = async (startAfter?: string, pageSize = 20): Promise<Product[]> => {
+export const fetchProducts = async (): Promise<Product[]> => {
   // For now, we'll just fetch all products since we don't have startAfter implemented
   const snapshot = await getDocs(productsRef);
   return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }) as Product);
@@ -57,7 +57,7 @@ export const fetchProducts = async (startAfter?: string, pageSize = 20): Promise
 
 // Fetch product by ID
 export const fetchProductById = async (productId: string): Promise<Product | null> => {
-  const productDoc = doc(productsRef, productId);
+  const productDoc = doc(db, 'products', productId);
   const productSnapshot = await getDoc(productDoc);
   
   if (productSnapshot.exists()) {
