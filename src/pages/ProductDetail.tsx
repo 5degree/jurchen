@@ -218,14 +218,14 @@ const ProductDetail = () => {
           )}
 
           {/* 3D Model and YouTube Video side by side */}
-          {(currentProduct.modelUrl || currentProduct.videoUrl) && (
+          {(currentProduct.product_model || currentProduct.videoUrl) && (
             <div className="bg-white p-6 rounded-lg shadow-sm mb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* 3D Model */}
-                {currentProduct.modelUrl && (
+                {currentProduct.product_model && (
                   <div>
                     <h2 className="text-2xl font-bold mb-4">3D Model</h2>
-                    <ModelViewer modelUrl={currentProduct.modelUrl} className="w-full h-80" />
+                    <ModelViewer modelUrl={currentProduct.product_model} className="w-full h-80" />
                   </div>
                 )}
 

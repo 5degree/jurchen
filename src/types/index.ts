@@ -39,6 +39,6 @@ export interface Product {
   subCategory?: string;
   subsubCategory?: string;
   termsAndConditions?: string;
-  modelUrl?: string;
+  product_model?: string;
   videoUrl?: string;
 } 

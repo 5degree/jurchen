@@ -1,50 +1,60 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
+import { OrbitControls, Environment, Html } from '@react-three/drei';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import LoadingSpinner from './LoadingSpinner';
+import * as THREE from 'three';
 
 interface ModelViewerProps {
   modelUrl: string;
   className?: string;
 }
 
-// Component to handle loading error
-const ModelError = () => {
-  return (
-    <Html center>
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-        <p>Failed to load 3D model</p>
-      </div>
-    </Html>
-  );
-};
+const ModelError = () => (
+  <Html center>
+    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <p>Failed to load 3D model</p>
+    </div>
+  </Html>
+);
 
-// Component to handle loading state
-const ModelLoader = () => {
-  return (
-    <Html center>
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <LoadingSpinner size="large" />
-        <p className="mt-2 text-gray-600">Loading 3D model...</p>
-      </div>
-    </Html>
-  );
-};
+const ModelLoader = () => (
+  <Html center>
+    <div className="bg-white p-4 rounded-lg shadow-md">
+      <LoadingSpinner size="large" />
+      <p className="mt-2 text-gray-600">Loading 3D model...</p>
+    </div>
+  </Html>
+);
 
-// Component to render the actual 3D model
-const Model = ({ modelUrl }: { modelUrl: string }) => {
+const ObjModel = ({ modelUrl }: { modelUrl: string }) => {
   const [error, setError] = useState(false);
+  const [obj, setObj] = useState<THREE.Group | null>(null);
 
-  try {
-    // Add CORS proxy to the URL
-    const proxyUrl = `https://cors-anywhere.herokuapp.com/${modelUrl}`;
-    const { scene } = useGLTF(proxyUrl);
-    return <primitive object={scene} scale={[1, 1, 1]} position={[0, 0, 0]} />;
-  } catch (err) {
-    console.error('Error rendering model:', err);
-    if (!error) setError(true);
+  useEffect(() => {
+    const loader = new OBJLoader();
+    loader.load(
+      modelUrl,
+      (object) => {
+        setObj(object);
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading OBJ model:', error);
+        setError(true);
+      }
+    );
+  }, [modelUrl]);
+
+  if (error) {
     return <ModelError />;
   }
+
+  if (!obj) {
+    return <ModelLoader />;
+  }
+
+  return <primitive object={obj} scale={[1, 1, 1]} position={[0, 0, 0]} />;
 };
 
 const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) => {
@@ -63,19 +73,13 @@ const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) 
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
         <Suspense fallback={<ModelLoader />}>
-          <Model modelUrl={modelUrl} />
+          <ObjModel modelUrl={modelUrl} />
           <Environment preset="sunset" />
-          <OrbitControls 
-            enablePan={true} 
-            enableZoom={true} 
-            enableRotate={true} 
-            autoRotate 
-            autoRotateSpeed={0.5} 
-          />
+          <OrbitControls enablePan enableZoom enableRotate autoRotate autoRotateSpeed={0.5} />
         </Suspense>
       </Canvas>
     </div>
   );
 };
 
-export default ModelViewer; 
+export default ModelViewer;
