@@ -18,6 +18,14 @@ const Contact = () => {
     message: ''
   });
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Allow only digits and limit to 10 characters
+    if (/^\d{0,10}$/.test(value)) {
+      setFormData({ ...formData, phone: value });
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -111,15 +119,18 @@ const Contact = () => {
 
                 <div className="mb-4">
                   <label htmlFor="phone" className="block text-gray-700 mb-2">
-                    Phone Number
+                    Phone Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
                     id="phone"
                     name="phone"
                     value={formData.phone}
-                    onChange={handleChange}
+                    onChange={handlePhoneChange}
                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    maxLength={10}
+                    pattern="\d{10}"
+                    required
                   />
                 </div>
 

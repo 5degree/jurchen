@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.svg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ const Header = () => {
       <div className="max-w-[1100px] mx-auto px-4 py-6">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-gray-900">
-            Jurchen Technology
+          <img src={logo} alt="Logo" width={200} />
           </Link>
 
           {/* Mobile menu button */}
@@ -43,11 +44,8 @@ const Header = () => {
             <Link to="/" className="text-gray-600 hover:text-gray-900 font-medium">
               Home
             </Link>
-            <Link to="/products" className="text-gray-600 hover:text-gray-900 font-medium">
-              Products
-            </Link>
             <Link to="/categories" className="text-gray-600 hover:text-gray-900 font-medium">
-              Categories
+              Products
             </Link>
             <Link to="/about" className="text-gray-600 hover:text-gray-900 font-medium">
               About
@@ -69,18 +67,11 @@ const Header = () => {
               Home
             </Link>
             <Link 
-              to="/products" 
-              className="block text-gray-600 hover:text-gray-900 font-medium py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Products
-            </Link>
-            <Link 
               to="/categories" 
               className="block text-gray-600 hover:text-gray-900 font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Categories
+              Products
             </Link>
             <Link 
               to="/about" 

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.svg';
 
 const Footer = () => {
   return (
@@ -7,7 +8,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row">
           {/* Company Info - 40% width on desktop, 100% on mobile */}
           <div className="w-full md:w-[40%] mb-8 md:mb-0">
-            <h3 className="text-xl font-bold mb-4">Jurchen Technology</h3>
+            <h3 className="text-xl font-bold mb-4">
+              <img src={logo} alt="Logo" width={200} />
+            </h3>
             <p className="mb-4 text-gray-300">
               Providing high-quality solar products for sustainable energy solutions.
             </p>

@@ -60,61 +60,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Our Team */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center">Our Leadership Team</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Rajesh Kumar',
-                position: 'CEO & Founder',
-                bio: 'With over 20 years of experience in renewable energy, Rajesh leads our company with a passion for sustainable solutions.'
-              },
-              {
-                name: 'Priya Sharma',
-                position: 'Chief Technology Officer',
-                bio: 'An expert in solar technology, Priya oversees all product development and innovation initiatives.'
-              },
-              {
-                name: 'Amit Patel',
-                position: 'Chief Operations Officer',
-                bio: 'Amit ensures our operations run smoothly, from manufacturing to delivery, maintaining our quality standards.'
-              },
-              {
-                name: 'Neha Singh',
-                position: 'Head of Sales',
-                bio: 'Leading our sales team, Neha works to bring Jurchens solar solutions to homes and businesses across the country.'
-              },
-              {
-                name: 'Vikram Malhotra',
-                position: 'Chief Financial Officer',
-                bio: 'Managing our financial health, Vikram enables us to continue growing while maintaining sustainability.'
-              },
-              {
-                name: 'Deepika Reddy',
-                position: 'Customer Success Director',
-                bio: 'Deepika ensures our customers receive the best possible support and service throughout their solar journey.'
-              }
-            ].map((member, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                <div className="h-32 w-32 mx-auto bg-gray-300 rounded-full mb-4 overflow-hidden">
-                  <img 
-                    src={`/images/team/${member.name.toLowerCase().replace(' ', '-')}.jpg`}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${member.name.replace(' ', '+')}&size=128&background=0D8ABC&color=fff`;
-                    }}
-                  />
-                </div>
-                <h3 className="text-xl font-semibold mb-1 text-center">{member.name}</h3>
-                <p className="text-blue-600 text-center mb-3">{member.position}</p>
-                <p className="text-gray-700 text-center">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Our Achievements */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Our Achievements</h2>
