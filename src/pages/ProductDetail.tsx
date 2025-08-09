@@ -154,27 +154,6 @@ const ProductDetail = () => {
                 </p>
               )}
 
-              {/* Price information */}
-              {currentProduct.sale_price && (
-                <div className="mb-6">
-                  <div className="flex items-baseline">
-                    {currentProduct.sale_price && currentProduct.mrp && currentProduct.sale_price < currentProduct.mrp ? (
-                      <>
-                        <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
-                        <span className="ml-2 text-lg text-gray-500 line-through">₹{currentProduct.mrp.toLocaleString()}</span>
-                      </>
-                    ) : (
-                      <span className="text-2xl font-bold text-gray-900">₹{currentProduct.sale_price.toLocaleString()}</span>
-                    )}
-                  </div>
-                  {currentProduct.gst && (
-                    <p className="text-sm text-gray-600 mt-1">
-                      GST: {currentProduct.gst}% | HSN Code: {currentProduct.hsnCode || 'N/A'}
-                    </p>
-                  )}
-                </div>
-              )}
-
               {/* Short description */}
               {currentProduct.description && (
                 <div className="mb-6">
