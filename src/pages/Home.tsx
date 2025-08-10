@@ -5,6 +5,10 @@ import Layout from '../components/layout/Layout';
 import HeroSlider from '../components/ui/HeroSlider';
 import ProductCard from '../components/ui/ProductCard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import SplitOverlaySection from '../components/ui/SplitOverlaySection';
+import aboutBg from './../assets/about-bg.jpg';
+import missionVisionBg from './../assets/mission-vision-bg.jpg';
+import projectBg from './../assets/project-bg.png';
 
 const Home = () => {
   const { 
@@ -85,6 +89,34 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Split overlay promotional section */}
+      <SplitOverlaySection
+        left={{
+          imageUrl: aboutBg,
+          title: 'Company',
+          subtitle: 'About us',
+          buttonHref: '/about',
+          ariaLabel: 'Read more about the company',
+        }}
+        right={{
+          imageUrl: missionVisionBg,
+          title: 'Values & Visions',
+          subtitle: 'Mission Statement',
+          buttonHref: 'https://www.jurchen-technology.com/company/jurchen-technology/values-and-visions/',
+          ariaLabel: 'Read more about our values and visions',
+        }}
+      />
+      
+      <SplitOverlaySection
+        left={{
+          imageUrl: projectBg,
+          title: 'Projects',
+          subtitle: 'A selection of realized projects',
+          buttonHref: 'https://www.jurchen-technology.com/peg-solar-mounting/',
+          ariaLabel: 'Read more about the company',
+        }}
+      />
 
       {/* CTA Section */}
       <section className="w-full py-20 bg-blue-700 text-white">
