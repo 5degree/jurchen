@@ -1,22 +1,13 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Html } from '@react-three/drei';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import ObjModel from './ObjModel';
 import LoadingSpinner from './LoadingSpinner';
-import * as THREE from 'three';
 
 interface ModelViewerProps {
   modelUrl: string;
   className?: string;
 }
-
-const ModelError = () => (
-  <Html center>
-    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-      <p>Failed to load 3D model</p>
-    </div>
-  </Html>
-);
 
 const ModelLoader = () => (
   <Html center>
@@ -27,37 +18,7 @@ const ModelLoader = () => (
   </Html>
 );
 
-const ObjModel = ({ modelUrl }: { modelUrl: string }) => {
-  const [error, setError] = useState(false);
-  const [obj, setObj] = useState<THREE.Group | null>(null);
-
-  useEffect(() => {
-    const loader = new OBJLoader();
-    loader.load(
-      modelUrl,
-      (object) => {
-        setObj(object);
-      },
-      undefined,
-      (error) => {
-        console.error('Error loading OBJ model:', error);
-        setError(true);
-      }
-    );
-  }, [modelUrl]);
-
-  if (error) {
-    return <ModelError />;
-  }
-
-  if (!obj) {
-    return <ModelLoader />;
-  }
-
-  return <primitive object={obj} scale={[1, 1, 1]} position={[0, 0, 0]} />;
-};
-
-const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) => {
+export default function ModelViewer({ modelUrl, className = "w-full h-96" }: ModelViewerProps) {
   if (!modelUrl) {
     return (
       <div className={`${className} flex items-center justify-center bg-gray-100 rounded-lg`}>
@@ -69,9 +30,17 @@ const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) 
   return (
     <div className={`${className} bg-gray-100 rounded-lg overflow-hidden`}>
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        {/* Lights */}
+        <ambientLight intensity={0.3} />
+        <hemisphereLight color={"white"} groundColor={"#444444"} intensity={0.6} />
+        <directionalLight
+          position={[5, 10, 7.5]}
+          intensity={1}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+        />
+
         <Suspense fallback={<ModelLoader />}>
           <ObjModel modelUrl={modelUrl} />
           <Environment preset="sunset" />
@@ -80,6 +49,4 @@ const ModelViewer = ({ modelUrl, className = "w-full h-96" }: ModelViewerProps) 
       </Canvas>
     </div>
   );
-};
-
-export default ModelViewer;
+}
