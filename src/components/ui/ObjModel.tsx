@@ -22,7 +22,7 @@ export default function ObjModel({ modelUrl }: ObjModelProps) {
   const [obj, setObj] = useState<THREE.Group | null>(null);
 
   useEffect(() => {
-    const objLoader = (materials?: THREE.MaterialCreator) => {
+    const objLoader = (materials?: any) => {
       const loader = new OBJLoader();
       if (materials) loader.setMaterials(materials);
       loader.load(

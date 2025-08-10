@@ -66,6 +66,7 @@ declare module '@react-three/fiber' {
     children: React.ReactNode;
     camera?: Record<string, any>;
   }>;
+  export const useThree: () => any;
 }
 
 declare module '@react-three/drei' {
@@ -81,3 +82,9 @@ declare module '@react-three/drei' {
   export const Environment: React.FC<{ preset: string }>;
   export const Html: React.FC<{ center?: boolean; children: React.ReactNode }>;
 } 
+
+// Relaxed types for libraries that don't provide full type coverage in this project
+declare module 'react-pageflip' {
+  const HTMLFlipBook: React.ComponentType<any>;
+  export default HTMLFlipBook;
+}

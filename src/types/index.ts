@@ -41,4 +41,5 @@ export interface Product {
   termsAndConditions?: string;
   product_model?: string;
   videoUrl?: string;
+  product_brochure?: string;
 } 
