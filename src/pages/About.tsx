@@ -31,13 +31,13 @@ const About = () => {
           <h2 className="text-3xl font-bold mb-6 text-center">Our Story</h2>
           <div className="max-w-3xl mx-auto">
             <p className="text-gray-700 mb-4">
-              Founded in 2010, Jurchen Technology began with a simple mission: to make solar energy accessible and affordable for everyone. What started as a small team of passionate engineers has grown into a leading provider of solar products across India.
+            Jurchen Technology was founded in 2008 by Michael Jurchen whose first products were clips for PV modules and DC cable harnesses. Jurchen Technology has developed into a major global player in the solar industry.
             </p>
             <p className="text-gray-700 mb-4">
-              Our journey has been driven by innovation and a commitment to quality. We've continuously evolved our product range to meet the growing needs of our customers, from small residential solar installations to large commercial projects.
+            To create added value for customers in the future, Jurchen Technology has its own development department, which continuously develops existing products and brings innovative solutions to market.
             </p>
             <p className="text-gray-700">
-              Today, Jurchen Technology stands at the forefront of the renewable energy sector, with a diverse catalog of products that power homes, businesses, and communities. Our growth is a testament to our core values of sustainability, reliability, and customer satisfaction.
+            Jurchen Technology is the only manufacturer on the market to offer solar mounting systems and DC cabling from one source. Active globally, Jurchen offers its customers know-how from the start of the project development to the acceptance of solar construction work. Jurchen has technical know-how supplied to over 500 solar projects in 6 continents, with over 3.6 GW of substructure and 4.2 GW of DC cabling.
             </p>
           </div>
         </section>
