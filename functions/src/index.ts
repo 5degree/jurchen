@@ -1,45 +1,66 @@
-import * as functions from 'firebase-functions';
-import nodemailer from 'nodemailer';
-import cors from 'cors';
+// functions/src/index.ts
+import * as functions from "firebase-functions";
+import nodemailer from "nodemailer";
 
-const corsHandler = cors({ origin: true });
+// Read credentials from Firebase Functions config (gmail.*)
+const emailUser = process.env.EMAIL_FROM;
+const emailPass = process.env.PASS;
+const emailTo = process.env.EMAIL_TO;
 
-// Configure the email transport (Gmail example)
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: 'niteshgupta288@gmail.com',
-    pass: 'xwlm afsl kdbz iadh', // use App Passwords (not your real Gmail password)
+    user: emailUser,
+    pass: emailPass,
   },
 });
 
-export const sendContactForm = functions.https.onRequest((req, res) => {
-  corsHandler(req, res, async () => {
-    if (req.method !== 'POST') {
-      return res.status(405).send('Method Not Allowed');
-    }
+export const sendContactForm = functions.https.onRequest(async (req, res) => {
+  // Set CORS headers for all requests
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
 
-    const { name, email, phone, subject, message } = req.body;
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
 
-    const mailOptions = {
-      from: email,
-      to: 'your-email@gmail.com',
-      subject: 'New Submission on Contact Form',
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Phone: ${phone}
-        Subject: ${subject}
-        Message: ${message}
-      `,
-    };
+  if (req.method !== "POST") {
+    res.status(405).send("Method Not Allowed");
+    return;
+  }
 
-    try {
-      await transporter.sendMail(mailOptions);
-      return res.status(200).send({ success: true });
-    } catch (error) {
-      console.error('Email sending error:', error);
-      return res.status(500).send({ error: 'Failed to send email.' });
-    }
-  });
+  const { name, email, phone, subject, message } = req.body || {};
+  if (!name || !email || !phone || !message) {
+    res.status(400).send({ error: "Missing required fields." });
+    return;
+  }
+
+  const mailOptions = {
+    from: emailUser || "",
+    replyTo: email,
+    to: emailTo || "",
+    subject: `Contact form: ${subject || "No subject"}`,
+    text: `Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Subject: ${subject || "N/A"}
+Message:
+${message}`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).send({ success: true });
+    return;
+  } catch (error) {
+    console.error("Email sending error:", error);
+    res.status(500).send({ error: "Failed to send email." });
+    return;
+  }
 });

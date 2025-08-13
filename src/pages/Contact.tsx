@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import Layout from '../components/layout/Layout';
 
 const Contact = () => {
@@ -18,7 +18,9 @@ const Contact = () => {
     message: ''
   });
 
-  const handlePhoneChange = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // Allow only digits and limit to 10 characters
     if (/^\d{0,10}$/.test(value)) {
@@ -26,7 +28,7 @@ const Contact = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -34,11 +36,11 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
       setFormStatus({
         status: 'error',
         message: 'Please fill out all required fields.'
@@ -46,21 +48,46 @@ const Contact = () => {
       return;
     }
 
-    // In a real application, you would send this data to your backend
-    // For demo purposes, we'll just simulate a successful submission
-    setFormStatus({
-      status: 'success',
-      message: 'Thank you for your message! We will get back to you soon.'
-    });
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(
+        'https://us-central1-jurchen-technology.cloudfunctions.net/sendContactForm',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        }
+      );
 
-    // Reset form after success
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+      if (!response.ok) {
+        console.log(response.text)
+        const errorBody = await response.text().catch(() => '');
+        throw new Error(errorBody || `Request failed with status ${response.status}`);
+      }
+
+      setFormStatus({
+        status: 'success',
+        message: 'Thank you for your message! We will get back to you soon.'
+      });
+
+      // Reset form after success
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    } catch (err) {
+      setFormStatus({
+        status: 'error',
+        message: 'Failed to send message. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -171,9 +198,15 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition"
+                  disabled={isSubmitting}
+                  className={`w-full py-3 px-4 rounded-md transition text-white ${
+                    isSubmitting
+                      ? 'bg-blue-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
+                  aria-busy={isSubmitting}
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending…' : 'Send Message'}
                 </button>
               </form>
             </div>
