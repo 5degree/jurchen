@@ -1,6 +1,6 @@
 [
     {
-      "origin": ["https://jurchen.vercel.app", "http://localhost:5173", "http://31.97.228.231/", "https://jurchen-technology.co.in"],
+      "origin": ["https://31.97.228.231/", "https://jurchen-technology.co.in"],
       "method": ["GET", "HEAD", "OPTIONS"],
       "responseHeader": ["Content-Type", "x-goog-meta-*"],
       "maxAgeSeconds": 3600

@@ -156,7 +156,7 @@ const Footer = () => {
           </p>
           
           <p>
-            Developed By <a href="https://www.aravalibharat.com?utm_source=jurchen-technology.co/in" target="blank">Aravali Bharat</a>
+            Developed By <a href="https://www.aravalibharat.com?utm_source=jurchen-technology.co.in" target="blank">Aravali Bharat</a>
           </p>
         </div>
       </div>
