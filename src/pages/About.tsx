@@ -63,33 +63,27 @@ const About = () => {
         {/* Our Achievements */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Our Achievements</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                number: '10+',
-                text: 'Years of Experience',
+                number: '4500',
+                text: 'MW Wiring Harnesses',
                 description: 'A decade of excellence in solar solutions'
               },
               {
-                number: '500+',
-                text: 'Projects Completed',
+                number: '43',
+                text: 'Countries',
                 description: 'Across residential and commercial sectors'
               },
               {
-                number: '50+',
-                text: 'Solar Products',
+                number: '4200',
+                text: 'MW PV Subtructures',
                 description: 'Innovative solutions for diverse needs'
-              },
-              {
-                number: '100K+',
-                text: 'Happy Customers',
-                description: 'Satisfied clients across the country'
               }
             ].map((achievement, index) => (
               <div key={index} className="bg-gray-50 p-6 rounded-lg text-center">
                 <span className="text-4xl font-bold text-blue-700 block mb-2">{achievement.number}</span>
                 <h3 className="text-xl font-semibold mb-2">{achievement.text}</h3>
-                <p className="text-gray-600">{achievement.description}</p>
               </div>
             ))}
           </div>
