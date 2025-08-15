@@ -1,20 +1,11 @@
 import { pdfjs } from 'react-pdf';
+// Static URL import so Vite emits the asset and we reference it reliably in prod
+// @ts-ignore - Vite resolves this to a string URL at build time
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Configure pdf.js worker for react-pdf with Vite/ESM
-// Using ?url to ensure the worker file is resolved correctly by Vite
-// Falls back silently if resolution fails
-try {
-  // @ts-ignore - Vite will transform this import into an URL string
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-nocheck
-  import('pdfjs-dist/build/pdf.worker.min.mjs?url').then((mod: any) => {
-    const workerUrl = (mod && (mod.default || mod)) as string;
-    if (workerUrl) {
-      pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
-    }
-  });
-} catch {
-  // noop
+if (typeof pdfWorkerUrl === 'string' && pdfWorkerUrl.length > 0) {
+  pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerUrl as string;
+} else {
+  // Fallback: attempt common public path (ensure you copy worker if using this)
+  pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 }
-
-
