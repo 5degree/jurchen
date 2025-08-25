@@ -136,14 +136,14 @@ const Footer = () => {
             <div className="w-1/2 pl-4">
               <h3 className="text-xl font-bold mb-4">Contact Us</h3>
               <address className="not-italic text-gray-300">
-                <p className="mb-2">114, The Summit Business Bay</p>
-                <p className="mb-2">Andheri - Kurla Rd, opp Moviemax</p>
-                <p className="mb-2">Chakala, Andheri East</p>
-                <p className="mb-2">Mumbai, Maharashtra 400093</p>
+                <p className="mb-2">114, The Summit Business Bay,</p>
+                <p className="mb-2">Andheri - Kurla Rd,</p>
+                <p className="mb-2">Andheri East,</p>
+                <p className="mb-2">Mumbai, Maharashtra 400093.</p>
               </address>
               <p className="mt-4 text-gray-300">
                 <span className="block mb-1">Phone: +91 22 4968 9797</span>
-                <span className="block">Email: Sales@jurchen-technology.com</span>
+                <span className="block">Email: sales@jurchen-technology.com</span>
               </p>
             </div>
           </div>

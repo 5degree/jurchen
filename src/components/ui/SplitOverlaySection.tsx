@@ -30,7 +30,7 @@ const Side: React.FC<SideProps & { heightClassName: string }> = ({ imageUrl, tit
         className="absolute inset-0 h-full w-full object-cover object-center transform transition-transform duration-300 origin-center group-hover:scale-110"
       />
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-white/50 rounded-lg p-6 w-[300px] h-[250px] flex flex-col items-center justify-center text-center shadow-md">
+        <div className="bg-white/10 backdrop-blur-md border border-white/30 rounded-xl p-6 w-[300px] h-[250px] flex flex-col items-center justify-center text-center shadow-xl">
           <h3 className="text-3xl font-bold text-blue-800">{title}</h3>
           <p className="mt-2 text-lg font-semibold text-blue-700">{subtitle}</p>
           <a

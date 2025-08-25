@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Slider } from "@mui/material";
 import { useAppStore } from "../store";
 import Layout from "../components/layout/Layout";
 import ProductCard from "../components/ui/ProductCard";
@@ -25,7 +24,6 @@ const Products = () => {
 
   // Filter state
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 50000]);
   const [selectedCategory, setSelectedCategory] = useState(categoryParam || "");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
@@ -76,12 +74,6 @@ const Products = () => {
       );
     }
 
-    // Filter by price range
-    result = result.filter((product) => {
-      const price = product.sale_price || product.mrp || 0;
-      return price >= priceRange[0] && price <= priceRange[1];
-    });
-
     // Filter by category
     if (selectedCategory && !categoryParam) {
       result = result.filter(
@@ -92,7 +84,7 @@ const Products = () => {
     setFilteredProducts(result);
     setPage(1);
     setHasMore(result.length > productsPerPage);
-  }, [products, searchQuery, priceRange, selectedCategory, categoryParam]);
+  }, [products, searchQuery, selectedCategory, categoryParam]);
 
   // Update displayed products when filtered products or page changes
   useEffect(() => {
@@ -123,19 +115,6 @@ const Products = () => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle price range change
-  // const handlePriceRangeChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   const newValue = parseInt(e.target.value);
-  //   setPriceRange((prev) => {
-  //     const newRange = [...prev] as [number, number];
-  //     newRange[index] = newValue;
-  //     return newRange;
-  //   });
-  // };
-
   // Handle category change
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const category = e.target.value;
@@ -158,15 +137,9 @@ const Products = () => {
   // Clear all filters
   const clearFilters = () => {
     setSearchQuery("");
-    setPriceRange([0, 50000]);
     setSelectedCategory("");
     setSearchParams(new URLSearchParams());
   };
-
-  // Get the maximum price from all products for the price range slider
-  const maxPrice = Math.max(
-    ...products.map((product) => product.sale_price || 0)
-  );
 
   // Page title based on parameters
   const getPageTitle = () => {
@@ -223,37 +196,13 @@ const Products = () => {
                   ))}
                 </select>
               </div>
-
-              {/* Price Range */}
-              <div>
-                <label
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Filter by Price
-                </label>
-                <div className="px-3">
-                  <Slider
-                    value={priceRange}
-                    onChange={(_, newValue) => setPriceRange(newValue as [number, number])}
-                    valueLabelDisplay="auto"
-                    min={0}
-                    max={maxPrice}
-                    step={100}
-                    valueLabelFormat={(value) => `₹${value.toLocaleString()}`}
-                  />
-                  <div className="flex justify-between mt-2 text-sm text-gray-600">
-                    <span>₹{priceRange[0].toLocaleString()}</span>
-                    <span>₹{priceRange[1].toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Clear Filters */}
             <div className="flex justify-end">
               <button
                 onClick={clearFilters}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-white-600 text-sm font-medium"
               >
                 CLEAR FILTERS
               </button>

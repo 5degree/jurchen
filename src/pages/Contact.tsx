@@ -227,7 +227,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-medium">Address</h3>
                     <p className="text-gray-600 mt-1">
-                    114, The Summit Business Bay (Omkar), Andheri - Kurla Rd, opposite to Moviemax Theater, Chakala, Andheri East, Mumbai, Maharashtra 400093
+                    114, The Summit Business Bay, Andheri - Kurla Rd, Andheri East, Mumbai, Maharashtra 400093.
                     </p>
                   </div>
                 </div>
@@ -252,7 +252,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-medium">Email</h3>
-                    <p className="text-gray-600 mt-1">Sales@jurchen-technology.com</p>
+                    <p className="text-gray-600 mt-1">sales@jurchen-technology.com</p>
                   </div>
                 </div>
 
@@ -308,7 +308,7 @@ const Contact = () => {
           <h2 className="text-xl font-semibold mb-6">Find Us</h2>
           <div className="h-96 bg-gray-200 rounded-lg overflow-hidden">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.9968972083495!2d77.59007341146926!3d12.971599290855068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae167d231f6d89%3A0x96e307a89daf12c4!2sBangalore%2C%20Karnataka%2C%20India!5e0!3m2!1sen!2sus!4v1650450267819!5m2!1sen!2sus" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d481543.5468050372!2d72.47752651518957!3d19.4530246296827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8321665aaab%3A0x89f4db084eff86d7!2sJurchen%20Technology%20India%20Private%20Limited!5e0!3m2!1sen!2sin!4v1756134828311!5m2!1sen!2sin" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 

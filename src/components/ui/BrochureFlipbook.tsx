@@ -124,9 +124,9 @@ const BrochureFlipbook = ({ pdfUrl, className = 'w-full' }: BrochureFlipbookProp
       </div>
       {/* Controls & Status */}
       <div className="mt-4 flex flex-col items-center gap-2">
-        <div className="flex items-center gap-3">
-          <button type="button" onClick={prevButtonClick} className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Previous page</button>
-          <button type="button" onClick={nextButtonClick} className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Next page</button>
+        <div className="inline-flex">
+          <button type="button" onClick={prevButtonClick} className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4">Previous page</button>
+          <button type="button" onClick={nextButtonClick} className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4">Next page</button>
         </div>
       </div>
     </div>
