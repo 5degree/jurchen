@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppStore } from '../store';
 import Layout from '../components/layout/Layout';
 import CategoryCard from '../components/ui/CategoryCard';
@@ -7,46 +7,14 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 const Categories = () => {
   const { 
     categories, 
-    loadCategories, 
-    loadSubCategories,
+    loadCategories,
     isCategoriesLoading,
     categoriesError
   } = useAppStore();
 
-  const [loadedCategoryIds, setLoadedCategoryIds] = useState<Set<string>>(new Set());
-  const [categorySubcategories] = useState<Record<string, any[]>>({});
-  const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
-
-  // Load subcategories only when a category is expanded
-  const loadSubCategoriesForCategory = async (categoryName: string, categoryId: string) => {
-    if (loadedCategoryIds.has(categoryId)) {
-      return categorySubcategories[categoryName] || [];
-    }
-
-    setIsLoading(true);
-    try {
-      // Load subcategories from the store
-      await loadSubCategories(categoryName);
-      
-      // Mark this category as loaded
-      setLoadedCategoryIds(prev => {
-        const updated = new Set(prev);
-        updated.add(categoryId);
-        return updated;
-      });
-      
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Failed to load subcategories:', error);
-      setIsLoading(false);
-    }
-    
-    return [];
-  };
 
   return (
     <Layout>
@@ -76,8 +44,8 @@ const Categories = () => {
                 <CategoryCard 
                   key={category.id} 
                   category={category} 
-                  onExpandCategory={() => loadSubCategoriesForCategory(category.name, category.id)}
-                  isLoading={isLoading}
+                  onExpandCategory={() => Promise.resolve([])}
+                  isLoading={false}
                 />
               ))}
             </div>
