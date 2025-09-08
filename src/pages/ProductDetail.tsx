@@ -17,6 +17,7 @@ const ProductDetail = () => {
 
   const [selectedImage, setSelectedImage] = useState("");
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (productId) {
@@ -72,6 +73,35 @@ const ProductDetail = () => {
       return url; // fallback to original if parsing fails
     }
   }
+
+  // Handle "Enquire Now" deep link behavior
+  const handleEnquire = () => {
+    if (!currentProduct) return;
+
+    const userAgent = navigator.userAgent || (navigator as any).vendor || (window as any).opera;
+
+    const productId = (currentProduct as any).id || (currentProduct as any)._id || "";
+    const appUrl = `jurchen://product/${productId}`;
+    const playStoreUrl = "https://play.google.com/store/apps/details?id=com.jurchen";
+    const appStoreUrl = "https://apps.apple.com/app/id123456789";
+
+    const isAndroid = /android/i.test(userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+    if (isAndroid) {
+      window.location.href = appUrl;
+      setTimeout(() => {
+        window.location.href = playStoreUrl;
+      }, 1000);
+    } else if (isIOS) {
+      window.location.href = appUrl;
+      setTimeout(() => {
+        window.location.href = appStoreUrl;
+      }, 1000);
+    } else {
+      setShowPopup(true);
+    }
+  };
 
   if (isCurrentProductLoading) {
     return (
@@ -253,6 +283,14 @@ const ProductDetail = () => {
                   <p className="text-gray-700">{currentProduct.material}</p>
                 </div>
               )}
+
+              {/* 'Enquire Now' button */}
+              <button
+                onClick={handleEnquire}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 text-lg shadow-md"
+              >
+                Enquire Now
+              </button>
             </div>
           </div>
 
@@ -329,6 +367,27 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
+        {/* Popup for non-mobile devices */}
+        {showPopup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setShowPopup(false)}
+            />
+            <div className="max-w-[600px] w-[400px] relative z-10 rounded-lg bg-white p-6 shadow-xl">
+              <h3 className="text-lg font-semibold mb-2">Open on Mobile</h3>
+              <p className="text-gray-700">
+                Open this page on your mobile web browser to launch the Jurchen app.
+              </p>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md py-2"
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
