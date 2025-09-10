@@ -82,8 +82,8 @@ const ProductDetail = () => {
 
     const productId = (currentProduct as any).id || (currentProduct as any)._id || "";
     const appUrl = `jurchen://product/${productId}`;
-    const playStoreUrl = "https://play.google.com/store/apps/details?id=com.jurchen";
-    const appStoreUrl = "https://apps.apple.com/app/id123456789";
+    const playStoreUrl = "https://play.google.com/store/apps/details?id=com.jurchentechnology.user";
+    const appStoreUrl = "https://apps.apple.com/in/app/jurchen-technology/id6475781422";
 
     const isAndroid = /android/i.test(userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(userAgent);

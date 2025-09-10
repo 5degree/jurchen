@@ -40,13 +40,13 @@ const SubCategories = () => {
         <div className="max-w-[1100px] mx-auto px-4">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <button
+            <p
               onClick={handleBackClick}
-              className="text-blue-600 hover:text-blue-800 font-medium mb-2"
+              className="text-blue-600 hover:text-blue-800 font-medium mb-2 cursor-pointer"
             >
               ← Back to Categories
-            </button>
-            <h1 className="text-3xl font-bold">
+            </p>
+            <h1 className="text-3xl font-bold mt-10">
               {categoryParam ? `${categoryParam} - Sub Categories` : 'Sub Categories'}
             </h1>
           </div>

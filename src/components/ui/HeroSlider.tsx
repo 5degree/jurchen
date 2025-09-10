@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { HeroSlider as HeroSliderType } from '../../types';
+import { useState, useEffect } from "react";
+import type { HeroSlider as HeroSliderType } from "../../types";
 
 interface HeroSliderProps {
   sliders: HeroSliderType[];
@@ -7,6 +7,17 @@ interface HeroSliderProps {
 
 const HeroSlider = ({ sliders }: HeroSliderProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [storeUrl, setStoreUrl] = useState<string>("");
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+
+    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      setStoreUrl("https://apps.apple.com/in/app/jurchen-technology/id6475781422");
+    } else {
+      setStoreUrl("https://play.google.com/store/apps/details?id=com.jurchentechnology.user");
+    }
+  }, []);
 
   // Auto-advance slides
   useEffect(() => {
@@ -44,10 +55,7 @@ const HeroSlider = ({ sliders }: HeroSliderProps) => {
         {sliders.map((slider, index) => (
           <div key={index} className="w-full flex-shrink-0">
             <div className="relative w-full h-full">
-            <a
-                href="https://play.google.com/store/apps/details?id=com.jurchentechnology.user"
-                target="_blank"
-                rel="noopener noreferrer">
+              <a href={storeUrl} target="_blank" rel="noopener noreferrer">
                 <img
                   src={slider.image}
                   alt={slider.title}
@@ -60,21 +68,31 @@ const HeroSlider = ({ sliders }: HeroSliderProps) => {
       </div>
 
       {/* Navigation arrows */}
-      <button 
+      <button
         onClick={goToPrevious}
         className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-50 rounded-full p-1 sm:p-2 md:p-3"
         aria-label="Previous slide"
       >
-        <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <button 
+      <button
         onClick={goToNext}
         className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-50 rounded-full p-1 sm:p-2 md:p-3"
         aria-label="Next slide"
       >
-        <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
@@ -86,7 +104,7 @@ const HeroSlider = ({ sliders }: HeroSliderProps) => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`rounded-full transition ${
-              currentSlide === index ? 'bg-white' : 'bg-white bg-opacity-50'
+              currentSlide === index ? "bg-white" : "bg-white bg-opacity-50"
             } h-2 w-2 sm:h-3 sm:w-3 md:h-4 md:w-4`}
             aria-label={`Go to slide ${index + 1}`}
           />
